@@ -84,7 +84,7 @@ def get_mat(example, refinement, **kwargs):
         except:
             raise NameError("Install PyMFEM for this example")
 
-        data = mfem_adv_diff(0, **kwargs)
+        data = mfem_adv_diff(refinement, **kwargs)
         return data
 
     elif example == examples.firedrake_adv_diff:

@@ -92,9 +92,6 @@ class mfem_adv_diff:
             problem_discr = kwargs['problem_type']
         except:
             problem_discr = 'constant_adv'
-        #
-        print(f"Using problem type {problem_discr}")
-        
         
         ##
         # Generate spatial discretization matrix
