@@ -16,6 +16,19 @@ class mfem_adv_diff:
     Methods
     -------
     
+    __new__(prob_refinement, kwargs) : This function is called upon object 
+        creation and returns a data dictionary with the matrix and other 
+        items (see function documentation for __new__)
+
+    ComputeMeshSize(self, mesh) : This function computes the maximum and
+        minimum mesh sizes for a mesh
+    
+     mfem_discretization(self, problem, gamma, meshfile, ref_levels, order) : 
+        This function uses MFEM to define a simple finite element
+        discretization of advection diffusion (stiffness matrix and mass
+        matrix) with simple uniform mesh refinement.
+
+
     '''
 
     
@@ -160,9 +173,9 @@ class mfem_adv_diff:
         '''
         Description
         ------------
-        This module uses MFEM to define a simple finite element discretization
-        and generates a finite element stiffness matrix K as well as mass matrix M
-        with a simple uniform mesh refinement.
+        This function uses MFEM to define a simple finite element
+        discretization of advection diffusion (stiffness matrix and mass
+        matrix) with simple uniform mesh refinement.
     
         Input
         -----
@@ -180,7 +193,7 @@ class mfem_adv_diff:
         M              : Finite element mass matrix (implicit)
         g              : Initial condition
     
-        Parameter choices for an example run of this module
+        Parameter choices for an example run of this function
         ----------------------------------------------------
     
         problem = 0

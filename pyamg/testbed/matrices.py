@@ -3,10 +3,12 @@ from enum import Enum
 from .mfem_adv_diff import mfem_adv_diff
 
 '''    
-Interface to get matrices from matrix testbed using built-in interfaces.
+Interface to get matrices from matrix testbed
 
-Each matrix test bed can form a sequence for a scaling study, or be a single
-example from an interesting application.
+The matrix refinement level is controlled by the refinement variable.  Thus,
+each matrix test bed can form a sequence for a scaling study (refinement =
+0,1,2,...), or be a single example from an interesting application
+(refinement=0). 
 
 Data types
 ----------
@@ -15,13 +17,18 @@ examples : enumerated class of supported testbed examples
 
 Methods
 -------
-get_mat(example, refinement, kwargs) : returns a matrix, for a certain level of refinement, and testbed specific kwargs
+
+get_mat(example, refinement, kwargs) : returns a matrix for the given example
+    type and given refinement level, using any testbed specific kwargs
 
 
 Add a new testbed interface
 ---------------------------
  1) Define new enumerated option for examples
  2) Add call in get_mat(...) to your matrix test bed
+
+    If your new matrix test bed requires specific kwargs, it is recommended to
+    check for the correctness of those kwargs, to help the user.
 
 '''
 
@@ -34,18 +41,19 @@ class examples(Enum):
 
 def get_mat(example, refinement, **kwargs):
     '''
-    some doc...
+    Returns a matrix for the given example type and given refinement level,
+    using any testbed specific kwargs
 
     Parameters
     ----------
     example : enumerated type, testbed.examples
-        Set to one of the supported examples in the enumerated type
+        Set to one of the supported example options in the enumerated type
         testbed.examples.
 
     refinement : int
-        All supported examples support a refinement of 0. For scaling
-        study examples, higher levels of refinement (i.e., larger problems)
-        are supported, and refinment can be 0, 1, 2, ... 
+        All examples support a refinement of 0. For scaling study examples,
+        higher levels of refinement (i.e., larger problems) are supported, and
+        refinment can be 0, 1, 2, ... 
 
     kwargs : dictionary (optional)
         Many testbed examples take (or require) additional parameters, which
@@ -59,9 +67,9 @@ def get_mat(example, refinement, **kwargs):
     is the right hand side.
 
     Optional dictionary members are as follows.
-    'B' : near null space mode(s)
-    'vertices' : spatial points for each degree of freedom (for Lagrangian discretizations)
-    'docstring' : description of problem
+        'B' : near null space mode(s)
+        'vertices' : spatial points for each degree of freedom (e.g., Lagrangian discretizations)
+        'docstring' : description of problem
 
     Notes
     -----
@@ -69,7 +77,7 @@ def get_mat(example, refinement, **kwargs):
     '''
     
     ##
-    # Based on the example, call the appropriate matrix testbed
+    # Based on the given example type, call the appropriate matrix testbed
     if example == examples.mfem_adv_diff:
         try:
             import mfem.ser as mfem
