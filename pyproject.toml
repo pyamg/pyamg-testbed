@@ -1,0 +1,25 @@
+[build-system]
+requires = [
+    "setuptools >= 64.0.0",
+    "wheel",
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pyamg.testbed"
+version = "0.0.1"
+description = "A collection of external examples for PyAMG."
+readme = "README.md"
+requires-python = ">=3.7"
+dependencies = [
+  "numpy",
+  "scipy",
+  "pyamg",
+]
+license = {file = "LICENSE"}
+
+[project.urls]
+homepage = "https://github.com/pyamg/pyamg-testbed"
+
+[project.optional-dependencies]
+mfem = ["mfem", "numpy"]
