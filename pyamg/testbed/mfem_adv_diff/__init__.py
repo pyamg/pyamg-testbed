@@ -1,3 +1,3 @@
-from .mfem_discretization import mfem_discretization
+from .mfem_adv_diff import mfem_adv_diff
 
-__all__ = ['mfem_discretization']
+__all__ = ['mfem_adv_diff']
