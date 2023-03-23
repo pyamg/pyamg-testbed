@@ -71,7 +71,11 @@ def get_mat(example, refinement, **kwargs):
     ##
     # Based on the example, call the appropriate matrix testbed
     if example == examples.mfem_adv_diff:
-        # inside the call here, check for pymfem, and check kwargs...
+        try:
+            import mfem.ser as mfem
+        except:
+            raise NameError("Install PyMFEM for this example")
+
         data = mfem_adv_diff(0, **kwargs)
         return data
 
