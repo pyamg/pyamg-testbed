@@ -1,6 +1,7 @@
 from warnings import warn
 from enum import Enum
 from .mfem_adv_diff import mfem_adv_diff
+from .aniso_diff import aniso_diff
 
 '''    
 Interface to get matrices from matrix testbed
@@ -37,6 +38,7 @@ Add a new testbed interface
 class examples(Enum):
     mfem_adv_diff = 1
     firedrake_adv_diff= 2
+    aniso_diff = 3
 
 
 def get_mat(example, refinement, **kwargs):
@@ -85,6 +87,10 @@ def get_mat(example, refinement, **kwargs):
             raise NameError("Install PyMFEM for this example")
 
         data = mfem_adv_diff(refinement, **kwargs)
+        return data
+
+    elif example == examples.aniso_diff:
+        data = aniso_diff(refinement, **kwargs)
         return data
 
     elif example == examples.firedrake_adv_diff:
