@@ -283,11 +283,11 @@ class mfem_adv_diff:
         m = mfem.BilinearForm(fes)
         m.AddDomainIntegrator(mfem.MassIntegrator())
         k = mfem.BilinearForm(fes)
-        k.AddDomainIntegrator(mfem.ConvectionIntegrator(velocity, -1.0))
+        k.AddDomainIntegrator(mfem.ConvectionIntegrator(velocity, 1.0))
         k.AddInteriorFaceIntegrator(
-              mfem.TransposeIntegrator(mfem.DGTraceIntegrator(velocity, 1.0, -0.5)))
+              mfem.TransposeIntegrator(mfem.DGTraceIntegrator(velocity, -1.0, 0.5)))
         k.AddBdrFaceIntegrator(
-              mfem.TransposeIntegrator(mfem.DGTraceIntegrator(velocity, 1.0, -0.5)))
+              mfem.TransposeIntegrator(mfem.DGTraceIntegrator(velocity, -1.0, 0.5)))
     
         m.Assemble()
         m.Finalize()
@@ -389,5 +389,5 @@ class mfem_adv_diff:
         ##
         # This will print the mesh to file
         #mesh.Print('refined.mesh', 8)
-        
+        #print(f"diag max  {(D+K).diagonal().max()},  diag min  {(D+K).diagonal().min()}")
         return (D+K, g, vertices, M, h_min, h_max)
