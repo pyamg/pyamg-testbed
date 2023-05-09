@@ -5,9 +5,9 @@ from scipy.sparse import csr_matrix
 import mfem.ser as mfem
 from mfem.ser import intArray
 
-class aniso_diff:
+class adv2D:
     '''    
-    Anisotropic diffusion testbed matrix interface
+    Upwind finite-difference implementation of advection, testbed matrix interface
     
     Attributes
     ----------
@@ -20,25 +20,23 @@ class aniso_diff:
         creation and returns a data dictionary with the matrix and other 
         items (see function documentation for __new__)
 
-     aniso_discretization(self, prob_refinement, epsilon, theta) : 
-        This function uses PyAMG stencils to create a 2D rotated anisotropic 
-        diffusion problem for epsilon and theta 
+     adv2D(self, prob_refinement, theta) : 
+        This function uses PyAMG stencils to create a 2D rotated advection
+        problem for angle theta, using upwind finite differences. See 
+        pyamg.gallery.advection2d for underlying generator.
 
     '''
 
     
     def __new__(self, prob_refinement, **kwargs):
         '''
-        Return a rotated anisotropic diffusion discretization with 2D Q1 elements
+        Return a rotated advection in 2D using upwind finite differences
 
         Input
         -----
         prob_refinement : refinement of problem (0, 1, 2, ...) to generate
         
-        kwargs : dictionary of MFEM parameters, must contain the following keys
-        
-          'epsilon' : float 
-                    anisotropy coefficient
+        kwargs : dictionary of parameters, must contain the following keys
         
           'theta' : float
                        angle of rotation 
@@ -61,31 +59,35 @@ class aniso_diff:
         
         docstring : string
                     describes discretization and problem parameters
+
+        References
+        ----------
+        See pyamg.gallery.advection2d for underlying generator
         '''
         
         
         ##
         # Retrieve discretization paramters
         try:
-            epsilon = kwargs ['epsilon']
             theta = kwargs['theta']
         except:
-            raise ValueError("Incorrect kwargs for aniso diff generator")    
+            raise ValueError("Incorrect kwargs for advection 2D generator")    
         
         ##
         # Stencil and matrix
-        from pyamg.gallery import stencil_grid
-        from pyamg.gallery.diffusion import diffusion_stencil_2d
-        n = 32 * (2**prob_refinement)
+        from pyamg.gallery import advection_2d
         data = {}
-        stencil = diffusion_stencil_2d(type='FE', epsilon=epsilon, theta=theta)
-        data['A'] = stencil_grid(stencil, (n,n), format='csr')
+        n = 2**(5 + prob_refinement)
+        A,b = advection_2d((n,n), theta=theta)
+        data['A'] = A
         data['B'] = np.ones((data['A'].shape[0],1))
         X,Y = np.meshgrid(np.linspace(0,1.0,n), np.linspace(0,1.0,n))
         data['vertices'] = np.hstack((X.reshape(-1,1),Y.reshape(-1,1)))
-        data['b'] = np.zeros((data['A'].shape[0],1))
-        data['docstring'] = 'Rotated Q1 Anisotripy on Unit Box by angle of %1.3e'%theta + \
-                            ' and PDE %1.3e u_xx + u_yy = f'%epsilon
+        data['b'] = b
+        data['docstring'] = '2D rotated advection problem for angle theta = %1.3e'%theta + \
+                            ' using upwind finite differences and PDE (cos(theta),sin(theta)) dot grad(u) = 0.\n' +\
+                            'Right-hand-side b contains boundary terms. ' +\
+                            'See pyamg.gallery.advection2d for underlying generator.'
 
         return data
         

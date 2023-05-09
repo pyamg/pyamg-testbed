@@ -2,6 +2,11 @@ from warnings import warn
 from enum import Enum
 from .mfem_adv_diff import mfem_adv_diff
 from .aniso_diff import aniso_diff
+from .poiss2D import poiss2D
+from .poiss3D import poiss3D
+from .adv2D import adv2D
+from .coeffjump2D import coeffjump2D
+from .coeffjumpSaw2D import coeffjumpSaw2D
 
 '''    
 Interface to get matrices from matrix testbed
@@ -39,6 +44,11 @@ class examples(Enum):
     mfem_adv_diff = 1
     firedrake_adv_diff= 2
     aniso_diff = 3
+    poiss2D = 4
+    poiss3D = 5
+    adv2D = 6
+    coeffjump2D = 7
+    coeffjumpSaw2D = 8
 
 
 def get_mat(example, refinement, **kwargs):
@@ -91,6 +101,26 @@ def get_mat(example, refinement, **kwargs):
 
     elif example == examples.aniso_diff:
         data = aniso_diff(refinement, **kwargs)
+        return data
+
+    elif example == examples.poiss2D:
+        data = poiss2D(refinement, **kwargs)
+        return data
+
+    elif example == examples.poiss3D:
+        data = poiss3D(refinement, **kwargs)
+        return data
+
+    elif example == examples.adv2D:
+        data = adv2D(refinement, **kwargs)
+        return data
+
+    elif example == examples.coeffjump2D:
+        data = coeffjump2D(refinement, **kwargs)
+        return data
+
+    elif example == examples.coeffjumpSaw2D:
+        data = coeffjumpSaw2D(refinement, **kwargs)
         return data
 
     elif example == examples.firedrake_adv_diff:
