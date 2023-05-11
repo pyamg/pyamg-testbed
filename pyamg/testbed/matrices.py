@@ -28,6 +28,13 @@ get_mat(example, refinement, kwargs) : returns a matrix for the given example
     type and given refinement level, using any testbed specific kwargs
 
 
+Example
+-------
+>>> from pyamg import testbed as tb 
+>>> kwargs = {'sigma' : 1000.0}
+>>> data = tb.get_mat(tb.examples.coeffjumpSaw2D, 0, **kwargs)
+>>> data['A']
+
 Add a new testbed interface
 ---------------------------
  1) Define new enumerated option for examples
@@ -69,7 +76,8 @@ def get_mat(example, refinement, **kwargs):
 
     kwargs : dictionary (optional)
         Many testbed examples take (or require) additional parameters, which
-        are specified in kwargs
+        are specified in kwargs.  Each test bed should print a help message if
+        called with incorrect kwargs, describing what is required.
 
 
     Returns
@@ -82,6 +90,20 @@ def get_mat(example, refinement, **kwargs):
         'B' : near null space mode(s)
         'vertices' : spatial points for each degree of freedom (e.g., Lagrangian discretizations)
         'docstring' : description of problem
+
+
+    Example Testbeds Available
+    --------------------------
+    >>> from pyamg import testbed as tb 
+    >>> for ee in tb.examples: print(ee)
+
+
+    Example Testbed Usage
+    ---------------------
+    >>> from pyamg import testbed as tb 
+    >>> kwargs = {'sigma' : 1000.0}
+    >>> data = tb.get_mat(tb.examples.coeffjumpSaw2D, 0, **kwargs)
+
 
     Notes
     -----

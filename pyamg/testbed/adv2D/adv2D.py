@@ -71,7 +71,8 @@ class adv2D:
         try:
             theta = kwargs['theta']
         except:
-            raise ValueError("Incorrect kwargs for advection 2D generator")    
+            raise ValueError("Incorrect kwargs for advection 2D generator. Dictionary kwargs must contain `theta`, \n"+\
+                             "the rotation angle for advection.")
         
         ##
         # Stencil and matrix

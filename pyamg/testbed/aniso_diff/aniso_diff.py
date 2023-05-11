@@ -70,8 +70,9 @@ class aniso_diff:
             epsilon = kwargs ['epsilon']
             theta = kwargs['theta']
         except:
-            raise ValueError("Incorrect kwargs for aniso diff generator")    
-        
+            raise ValueError("Incorrect kwargs for aniso diff generator. Dictionary kwargs must contain `epsilon` and `theta`,\n"+\
+                    "the strength of anisotropy in the x-direction, and the angle or rotation for the anisotropy, respectively.")
+
         ##
         # Stencil and matrix
         from pyamg.gallery import stencil_grid

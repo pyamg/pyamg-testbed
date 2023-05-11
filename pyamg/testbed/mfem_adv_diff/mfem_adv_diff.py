@@ -84,8 +84,8 @@ class mfem_adv_diff:
             meshfile = kwargs['meshfile']
             order = kwargs['order']
         except:
-            raise ValueError("Incorrect kwargs for pymfem generator")    
-        
+            raise ValueError("Incorrect kwargs for pymfem generator.  Dictionary kwargs must contain `gamma`, `meshfile`, `order`,\n"+\
+                             "the diffusion constant, MFEM-compatible mesh file, and finite element order, respectively.")   
         ##
         # Retrieve problem type
         try:

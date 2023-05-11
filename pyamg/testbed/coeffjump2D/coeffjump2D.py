@@ -67,7 +67,8 @@ class coeffjump2D:
         try:
             sigma = kwargs['sigma']
         except:
-            raise ValueError("Incorrect kwargs for box-in-box coefficient jump generator")    
+            raise ValueError("Incorrect kwargs for box-in-box coefficient jump generator. Dictionary kwargs must contain `sigma`, \n"+\
+                             "the coefficient jump amount for the problem.")
         
         ##
         # Stencil and matrix
